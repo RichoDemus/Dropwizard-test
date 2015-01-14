@@ -2,6 +2,7 @@ package com.richo.test.dropwizard;
 
 import com.richo.test.dropwizard.api.HelloWorldApi;
 import com.richo.test.dropwizard.api.HelloWorldResource;
+import com.richo.test.dropwizard.api.RequestScopedResource;
 import com.richo.test.dropwizard.filter.MyFilter;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -59,6 +60,8 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration>
 		environment.admin().addTask(new MyTestTask());
 
 		environment.jersey().register(resource);
+
+		environment.jersey().register(RequestScopedResource.class);
 
 	}
 
