@@ -1,13 +1,16 @@
 package com.richo.test.dropwizard;
 
+import com.richo.test.dropwizard.api.DumbAuthImplementation;
 import com.richo.test.dropwizard.api.HelloWorldApi;
 import com.richo.test.dropwizard.api.HelloWorldResource;
 import com.richo.test.dropwizard.api.RequestScopedResource;
+import com.richo.test.dropwizard.authentication.AuthRequestFilter;
 import com.richo.test.dropwizard.filter.MyFilter;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,6 +65,10 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration>
 		environment.jersey().register(resource);
 
 		environment.jersey().register(RequestScopedResource.class);
+		environment.jersey().register(DumbAuthImplementation.class);
+
+		environment.jersey().getResourceConfig().register(RolesAllowedDynamicFeature.class);
+		environment.jersey().register(AuthRequestFilter.class);
 
 	}
 

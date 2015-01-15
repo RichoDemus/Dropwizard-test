@@ -3,3 +3,9 @@ defaultName: Stranger
 
 server:
   rootPath: '/api/*'
+
+logging:
+  level: INFO
+  loggers:
+    com.richo: ALL
+    org.eclipse.jetty: WARN
