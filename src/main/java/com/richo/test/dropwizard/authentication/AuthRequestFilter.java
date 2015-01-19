@@ -37,10 +37,10 @@ public class AuthRequestFilter implements ContainerRequestFilter
 	{
 		logger.trace("filter called");
 
-		final String encodedToken = getHeader(requestContext);
-		logger.trace("token header is: {}", encodedToken);
+		final Optional<String> encodedToken = getHeader(requestContext);
+		logger.trace("token header is: {}", encodedToken.orElse("not present"));
 
-		if(encodedToken == null)
+		if(!encodedToken.isPresent())
 		{
 			requestContext.setSecurityContext(new MySecurityContext(Optional.<User>empty()));
 			return;
@@ -50,7 +50,7 @@ public class AuthRequestFilter implements ContainerRequestFilter
 		final Optional<User> user;
 		try
 		{
-			user = getUser(encodedToken);
+			user = getUser(encodedToken.get());
 		}
 		catch (InvalidTokenException e)
 		{
@@ -62,9 +62,9 @@ public class AuthRequestFilter implements ContainerRequestFilter
 		requestContext.setSecurityContext(new MySecurityContext(user));
 	}
 
-	private String getHeader(ContainerRequestContext requestContext)
+	private Optional<String> getHeader(ContainerRequestContext requestContext)
 	{
-		return requestContext.getHeaderString("x-token-jwt");
+		return Optional.ofNullable(requestContext.getHeaderString("x-token-jwt"));
 	}
 
 	private Optional<User> getUser(String encodedToken) throws InvalidTokenException
@@ -74,10 +74,10 @@ public class AuthRequestFilter implements ContainerRequestFilter
 		 * and make sure this token is not blacklisted
 		 */
 
-		final Map<String, Object> verify;
+		final Map<String, Object> claims;
 		try
 		{
-			verify = new JWTVerifier(AuthenticationManager.SECRET).verify(encodedToken);
+			claims = new JWTVerifier(AuthenticationManager.SECRET).verify(encodedToken);
 
 		}
 		catch (Exception e)
@@ -86,6 +86,6 @@ public class AuthRequestFilter implements ContainerRequestFilter
 			return Optional.empty();
 		}
 
-		return Optional.of(new User((String)verify.get("user"), (String)verify.get("role")));
+		return Optional.of(new User((String)claims.get("user"), (String)claims.get("role")));
 	}
 }
