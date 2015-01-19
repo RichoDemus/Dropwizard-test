@@ -1,9 +1,12 @@
 package com.richo.test.dropwizard;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.richo.test.dropwizard.api.HelloWorldApi;
 import com.richo.test.dropwizard.api.HelloWorldResource;
 import com.richo.test.dropwizard.api.RequestScopedResource;
 import com.richo.test.dropwizard.filter.MyFilter;
+import com.richo.test.dropwizard.inject.GuiceInjectModule;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -44,13 +47,19 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration>
 	public void run(HelloWorldConfiguration configuration,
 	                Environment environment)
 	{
+		final Injector injector = Guice.createInjector(new GuiceInjectModule(configuration));
+
+		final HelloWorldApi helloWorldResource = injector.getInstance(HelloWorldApi.class);
+		environment.jersey().register(helloWorldResource);
+
+
 		enableWadl(environment);
 
-		final HelloWorldApi resource = new HelloWorldResource(
-				configuration.getTemplate(),
-				configuration.getDefaultName()
-		);
-
+//		final HelloWorldApi resource = new HelloWorldResource(
+//				configuration.getTemplate(),
+//				configuration.getDefaultName()
+//		);
+/*
 		final TemplateHealthCheck healthCheck =
 				new TemplateHealthCheck(configuration.getTemplate());
 		environment.healthChecks().register("template", healthCheck);
@@ -62,7 +71,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration>
 		environment.jersey().register(resource);
 
 		environment.jersey().register(RequestScopedResource.class);
-
+*/
 	}
 
 	private void enableWadl(Environment environment)
