@@ -18,7 +18,6 @@ import javax.servlet.DispatcherType;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class HelloWorldApplication extends Application<HelloWorldConfiguration>

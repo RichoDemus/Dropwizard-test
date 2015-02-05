@@ -38,10 +38,9 @@ public class Token
 
 		JWTToken jwtToken = (JWTToken) o;
 
-		if (!raw.equals(jwtToken.raw)) return false;
+        return raw.equals(jwtToken.raw);
 
-		return true;
-	}
+    }
 
 	@JsonIgnore
 	@Override

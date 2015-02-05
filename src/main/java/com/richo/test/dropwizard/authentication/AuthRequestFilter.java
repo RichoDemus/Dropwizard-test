@@ -48,17 +48,14 @@ public class AuthRequestFilter implements ContainerRequestFilter
 
 
 		final Optional<User> user;
-		try
-		{
-			user = getUser(encodedToken.get());
-		}
-		catch (InvalidTokenException e)
-		{
-			final Response.Status unauthorized = Response.Status.UNAUTHORIZED;
-			requestContext.abortWith(Response.status(unauthorized).build());
-			return;
-		}
-
+        user = getUser(encodedToken.get());
+        if(!user.isPresent())
+        {
+            final Response.Status unauthorized = Response.Status.UNAUTHORIZED;
+            requestContext.abortWith(Response.status(unauthorized).build());
+            return;
+        }
+        
 		requestContext.setSecurityContext(new MySecurityContext(user));
 	}
 
@@ -67,8 +64,8 @@ public class AuthRequestFilter implements ContainerRequestFilter
 		return Optional.ofNullable(requestContext.getHeaderString("x-token-jwt"));
 	}
 
-	private Optional<User> getUser(String encodedToken) throws InvalidTokenException
-	{
+	private Optional<User> getUser(String encodedToken)
+    {
 		/**
 		 * TODO use injected authentication manager instead
 		 * and make sure this token is not blacklisted

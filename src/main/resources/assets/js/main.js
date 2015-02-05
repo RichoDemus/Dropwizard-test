@@ -14,10 +14,10 @@ function setupEventListeners()
 
 function setLoginFormBehaviour()
 {
-	console.log("setting up login form")
+	console.log("setting up login form");
 	$("#loginForm").submit(function(event)
 	{
-		console.log("logging in")
+		console.log("logging in");
 		login();
 		event.preventDefault();
 	});
@@ -27,7 +27,7 @@ function setRefreshButtonBehaviour()
 {
 	$("#refreshTokenButton").click(function(event)
 	{
-		console.log("refreshing token")
+		console.log("refreshing token");
 		refreshToken();
 		event.preventDefault();
 	});
@@ -37,7 +37,7 @@ function setLogoutButtonBehaviour()
 {
 		$("#logoutButton").click(function(event)
   	{
-  		console.log("refreshing token")
+  		console.log("refreshing token");
   		logout();
   		event.preventDefault();
   	});

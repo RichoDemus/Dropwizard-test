@@ -6,7 +6,6 @@ import com.richo.test.dropwizard.authentication.AuthenticationManager;
 import com.richo.test.dropwizard.model.JWTToken;
 import com.richo.test.dropwizard.model.Token;
 import org.junit.Assert;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;

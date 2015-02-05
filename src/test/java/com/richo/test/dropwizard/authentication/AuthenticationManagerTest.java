@@ -12,11 +12,7 @@ import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +31,7 @@ public class AuthenticationManagerTest
 
 	@ClassRule
  	public static final DropwizardAppRule<HelloWorldConfiguration> RULE =
-         new DropwizardAppRule<HelloWorldConfiguration>(HelloWorldApplication.class, ResourceHelpers.resourceFilePath("hello-world.yml"));
+         new DropwizardAppRule<>(HelloWorldApplication.class, ResourceHelpers.resourceFilePath("hello-world.yml"));
 
 	private Authentication api;
 

@@ -17,7 +17,7 @@ var Api = (function()
 		{
 			callback(data);
 		});
-    }
+    };
 
     pub.refreshToken = function(token, callback)
     {
@@ -43,7 +43,7 @@ var Api = (function()
     {
         callback();
     })
-    }
+    };
 
     //Private method
     /*
